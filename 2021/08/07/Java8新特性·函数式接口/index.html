@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java8新特性·函数式接口 | coderhls小破站</title><meta name="keywords" content="Java,jdk8新特性"><meta name="author" content="coderhls"><meta name="copyright" content="coderhls"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. 介绍在Java中，只包含一个抽象方法的接口，称之为函数式接口。 可以通过Lambda表达式来创建该接口的对象 在此接口上使用@FunctionalInterface注解，这样做可以检查它是否是一个函数式接口。同时javadoc也会包含一条申明，说明这个接口是一个函数式接口 2. jdk中四大核心函数式接口   函数式接口 参数类型 返回类型 用途    Consumer&lt;T&gt;消费">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8新特性·函数式接口">
+<meta property="og:url" content="http://example.com/2021/08/07/Java8%E6%96%B0%E7%89%B9%E6%80%A7%C2%B7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/index.html">
+<meta property="og:site_name" content="coderhls小破站">
+<meta property="og:description" content="1. 介绍在Java中，只包含一个抽象方法的接口，称之为函数式接口。 可以通过Lambda表达式来创建该接口的对象 在此接口上使用@FunctionalInterface注解，这样做可以检查它是否是一个函数式接口。同时javadoc也会包含一条申明，说明这个接口是一个函数式接口 2. jdk中四大核心函数式接口   函数式接口 参数类型 返回类型 用途    Consumer&lt;T&gt;消费">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png">
+<meta property="article:published_time" content="2021-08-07T10:10:05.000Z">
+<meta property="article:modified_time" content="2021-08-07T10:23:53.829Z">
+<meta property="article:author" content="coderhls">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="jdk8新特性">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/08/07/Java8%E6%96%B0%E7%89%B9%E6%80%A7%C2%B7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java8新特性·函数式接口',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-07 18:23:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">coderhls小破站</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java8新特性·函数式接口</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-07T10:10:05.000Z" title="发表于 2021-08-07 18:10:05">2021-08-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-08-07T10:23:53.829Z" title="更新于 2021-08-07 18:23:53">2021-08-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java8新特性·函数式接口"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h1><p>在Java中，只包含一个抽象方法的接口，称之为函数式接口。</p>
+<p>可以通过<code>Lambda</code>表达式来创建该接口的对象</p>
+<p>在此接口上使用<code>@FunctionalInterface</code>注解，这样做可以检查它是否是一个函数式接口。同时<code>javadoc</code>也会包含一条申明，说明这个接口是一个函数式接口</p>
+<h1 id="2-jdk中四大核心函数式接口"><a href="#2-jdk中四大核心函数式接口" class="headerlink" title="2. jdk中四大核心函数式接口"></a>2. jdk中四大核心函数式接口</h1><table>
+<thead>
+<tr>
+<th align="left">函数式接口</th>
+<th align="left">参数类型</th>
+<th align="left">返回类型</th>
+<th align="left">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>Consumer&lt;T&gt;</code>消费型接口</td>
+<td align="left">T</td>
+<td align="left">void</td>
+<td align="left">对类型为T的对象应用操作，包含方法：<code>void accetp(T t)</code></td>
+</tr>
+<tr>
+<td align="left"><code>Supplier&lt;T&gt;</code>供给型接口</td>
+<td align="left">无</td>
+<td align="left">T</td>
+<td align="left">返回类型为T的对象，包含方法：<code>T get()</code></td>
+</tr>
+<tr>
+<td align="left"><code>Function&lt;T, R&gt;</code>函数型接口</td>
+<td align="left">T</td>
+<td align="left">R</td>
+<td align="left">对类型为T的对象引用操作，并返回结果。结果是R类型的对象。包含方法：<code>R apply(T t)</code></td>
+</tr>
+<tr>
+<td align="left"><code>Predicate&lt;T&gt;</code>断定型接口</td>
+<td align="left">T</td>
+<td align="left">boolean</td>
+<td align="left">确定类型为T的对象是否满足某约束，并返回boolean值，包含方法：<code>boolean test(T t)</code></td>
+</tr>
+</tbody></table>
+<p>列举两个常用的接口类型作为例子</p>
+<h2 id="2-1-消费型接口"><a href="#2-1-消费型接口" class="headerlink" title="2.1 消费型接口"></a>2.1 消费型接口</h2><p>消费型接口不需要返回值，如<code>foreach</code>只是对集合进行遍历，对元素进行某些操作而不需要返回值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    happyTime(<span class="number">40</span>, money -&gt; System.out.println(<span class="string">&quot;最近学习太累了，去星巴克买了杯星冰乐，价格为：&quot;</span> + money));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">happyTime</span><span class="params">(<span class="keyword">double</span> money, Consumer&lt;Double&gt; consumer)</span> </span>&#123;</span><br><span class="line">    consumer.accept(money);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-断定型接口"><a href="#2-2-断定型接口" class="headerlink" title="2.2 断定型接口"></a>2.2 断定型接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test5</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; list = Arrays.asList(<span class="string">&quot;北京&quot;</span>, <span class="string">&quot;南京&quot;</span>, <span class="string">&quot;天津&quot;</span>, <span class="string">&quot;东京&quot;</span> ,<span class="string">&quot;西京&quot;</span>, <span class="string">&quot;普京&quot;</span>);</span><br><span class="line">    List&lt;String&gt; strings = filterString(list, <span class="keyword">new</span> Predicate&lt;String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> s.contains(<span class="string">&quot;京&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    System.out.println(strings);</span><br><span class="line"></span><br><span class="line">    List&lt;String&gt; strings1 = filterString(list, s -&gt; s.contains(<span class="string">&quot;京&quot;</span>));</span><br><span class="line">    System.out.println(strings1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据给定的规则，规律集合中的字符串，此规则由Predicate的方法决定</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> list</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> predicate</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">filterString</span><span class="params">(List&lt;String&gt; list, Predicate&lt;String&gt; predicate)</span></span>&#123;</span><br><span class="line">    ArrayList&lt;String&gt; filterList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (String s: list) &#123;</span><br><span class="line">        <span class="keyword">if</span> (predicate.test(s))</span><br><span class="line">            filterList.add(s);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> filterList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">coderhls</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/08/07/Java8%E6%96%B0%E7%89%B9%E6%80%A7%C2%B7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/">http://example.com/2021/08/07/Java8%E6%96%B0%E7%89%B9%E6%80%A7%C2%B7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">coderhls小破站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/jdk8%E6%96%B0%E7%89%B9%E6%80%A7/">jdk8新特性</a></div><div class="post_share"><div class="social-share" data-image="https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/08/07/Java8%E6%96%B0%E7%89%B9%E6%80%A7%C2%B7%E5%BC%95%E7%94%A8/"><img class="prev-cover" src="https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java8新特性·引用</div></div></a></div><div class="next-post pull-right"><a href="/2021/08/07/Java8%E6%96%B0%E7%89%B9%E6%80%A7%C2%B7Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><img class="next-cover" src="https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java8新特性·Lambda表达式</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/08/07/Java8新特性·Lambda表达式/" title="Java8新特性·Lambda表达式"><img class="cover" src="https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-07</div><div class="title">Java8新特性·Lambda表达式</div></div></a></div><div><a href="/2021/08/07/Java8新特性·Stream/" title="Java8新特性·Stream"><img class="cover" src="https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-07</div><div class="title">Java8新特性·Stream</div></div></a></div><div><a href="/2021/08/07/Java8新特性·引用/" title="Java8新特性·引用"><img class="cover" src="https://coderhls.oss-cn-shenzhen.aliyuncs.com/2021/6/1/1622518804538-lambda-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-07</div><div class="title">Java8新特性·引用</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">1. 介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-jdk%E4%B8%AD%E5%9B%9B%E5%A4%A7%E6%A0%B8%E5%BF%83%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">2. jdk中四大核心函数式接口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%B6%88%E8%B4%B9%E5%9E%8B%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 消费型接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E6%96%AD%E5%AE%9A%E5%9E%8B%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 断定型接口</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By coderhls</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><span>备案号：闽ICP备19021396号</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '4981fae69ffcab2fff99',
+      clientSecret: '98927dc26f09547ec6670ee9510184622a64a07e',
+      repo: 'coderhls.github.io',
+      owner: 'coderhls',
+      admin: ['coderhls'],
+      id: '03633942a7de4059b9dedf9d1973a7fa',
+      language: 'zh-CN',
+      perPage: 10,
+      distractionFreeMode: false,
+      pagerDirection: 'last',
+      createIssueManually: true,
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
